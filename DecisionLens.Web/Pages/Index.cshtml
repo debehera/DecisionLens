@@ -1,0 +1,38 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="dl-hero">
+    <h1>Turn messy discussions into TOGAF-tagged decision records</h1>
+    <p class="dl-lead">Paste a chat thread, meeting notes or an email. DecisionLens drafts the record, and you confirm the ADM phase and architecture domain before saving.</p>
+    <div class="dl-actions">
+        <a class="btn dl-btn-primary" asp-page="/Capture">New record</a>
+        <a class="btn dl-btn-outline" asp-page="/Records/Index">Browse records</a>
+    </div>
+</section>
+
+<section class="row g-4">
+    <div class="col-md-4">
+        <div class="dl-card">
+            <span class="dl-step">1</span>
+            <h2>Paste</h2>
+            <p>Drop in a discussion from any source. Use fictional or sanitized text only.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dl-card">
+            <span class="dl-step">2</span>
+            <h2>Review</h2>
+            <p>The AI drafts the record and suggests the TOGAF tags. You edit and confirm.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dl-card">
+            <span class="dl-step">3</span>
+            <h2>Save and share</h2>
+            <p>Browse and filter your records, then print or download them as Markdown.</p>
+        </div>
+    </div>
+</section>

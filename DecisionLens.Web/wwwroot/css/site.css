@@ -1,0 +1,69 @@
+:root {
+  --dl-navy: #10243e;
+  --dl-teal: #176b66;
+  --dl-amber: #e3a02b;
+  --dl-cream: #f6f3ec;
+  --dl-muted: #4a5568;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--dl-cream);
+  color: var(--dl-navy);
+}
+
+body > .container { flex: 1; width: 100%; }
+
+.dl-brand { font-weight: 700; color: var(--dl-navy); }
+
+.dl-banner {
+  background: var(--dl-amber);
+  color: var(--dl-navy);
+  text-align: center;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dl-footer {
+  background: var(--dl-navy);
+  color: #c9d3e0;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.dl-hero { padding: 1.5rem 0 2.5rem; max-width: 52rem; }
+.dl-hero h1 { font-weight: 700; line-height: 1.15; }
+.dl-lead { font-size: 1.2rem; color: var(--dl-muted); margin: 1rem 0 1.5rem; }
+.dl-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.dl-btn-primary { background: var(--dl-teal); color: #fff; border: 1px solid var(--dl-teal); }
+.dl-btn-primary:hover { background: #0f524e; color: #fff; }
+.dl-btn-outline { background: transparent; color: var(--dl-teal); border: 1px solid var(--dl-teal); }
+.dl-btn-outline:hover { background: var(--dl-teal); color: #fff; }
+
+.dl-card {
+  background: #fffdf8;
+  border: 1px solid #ddd6c8;
+  border-top: 4px solid var(--dl-teal);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+}
+.dl-card h2 { font-size: 1.35rem; margin: 0.5rem 0; }
+.dl-card p { color: var(--dl-muted); margin: 0; }
+
+.dl-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--dl-navy);
+  color: #fff;
+  font-weight: 700;
+}
