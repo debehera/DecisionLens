@@ -1,3 +1,5 @@
+using DecisionLens.Web.Data;
+using Microsoft.EntityFrameworkCore;
 using DecisionLens.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +8,15 @@ builder.Services.AddRazorPages();
 builder.Services.Configure<AiOptions>(builder.Configuration.GetSection("Ai"));
 builder.Services.Configure<LimitsOptions>(builder.Configuration.GetSection("Limits"));
 builder.Services.AddHttpClient<IDecisionDrafter, GeminiDecisionDrafter>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(ConnectionStringHelper.Resolve(builder.Configuration)));
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+    SeedData.EnsureSeeded(db);
+}
 
 if (!app.Environment.IsDevelopment())
 {

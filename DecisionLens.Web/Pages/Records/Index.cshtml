@@ -1,6 +1,45 @@
 @page
+@model DecisionLens.Web.Pages.Records.IndexModel
 @{
     ViewData["Title"] = "Records";
 }
-<h1>Records</h1>
-<p class="text-muted">Coming soon.</p>
+
+<h1 class="h3 mb-3">Records</h1>
+<p class="text-muted">Temporary list from Day 4. It proves the database works. The real browse page comes on Day 6.</p>
+
+@if (Model.Records.Count == 0)
+{
+    <p>No records yet.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>ADM phase</th>
+                    <th>Domain</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.Records)
+                {
+                    <tr>
+                        <td>@r.Id</td>
+                        <td>@r.Title</td>
+                        <td>@r.AdmPhase</td>
+                        <td>@r.Domain</td>
+                        <td>@r.Status</td>
+                        <td>@r.DecisionDate.ToString("yyyy-MM-dd")</td>
+                        <td>@r.Owner</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
