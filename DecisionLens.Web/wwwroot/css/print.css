@@ -1,0 +1,116 @@
+/* Print page: readable on screen and clean on paper */
+
+@page {
+    size: A4;
+    margin: 18mm;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 1.5rem;
+    background: #f6f3ec;
+    color: #1b1b1b;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 12pt;
+    line-height: 1.5;
+}
+
+.toolbar {
+    max-width: 800px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 0.95rem;
+}
+.toolbar button {
+    background: #176b66;
+    color: #fff;
+    border: 0;
+    border-radius: 0.4rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.toolbar a { color: #176b66; }
+
+.adr {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 2rem;
+    border: 1px solid #ddd6c4;
+}
+
+.kicker {
+    margin: 0;
+    color: #176b66;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 0.25rem 0 1rem;
+    font-size: 20pt;
+    line-height: 1.2;
+    color: #10243e;
+}
+
+h2 {
+    margin: 0 0 0.25rem;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 10pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #176b66;
+}
+
+p { margin: 0; white-space: pre-line; }
+
+.meta {
+    border-collapse: collapse;
+    margin-bottom: 1.25rem;
+}
+.meta th {
+    text-align: left;
+    padding: 0.1rem 1.25rem 0.1rem 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 10pt;
+    color: #5c6b7a;
+    font-weight: 600;
+}
+.meta td { padding: 0.1rem 0; }
+
+.field {
+    margin-bottom: 1rem;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.doc-footer {
+    margin-top: 1.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #ccc;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 9pt;
+    color: #5c6b7a;
+}
+
+@media print {
+    body {
+        background: #fff;
+        padding: 0;
+        font-size: 11pt;
+    }
+    .no-print { display: none !important; }
+    .adr {
+        border: 0;
+        padding: 0;
+        max-width: none;
+    }
+}

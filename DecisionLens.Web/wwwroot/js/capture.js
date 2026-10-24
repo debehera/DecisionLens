@@ -13,6 +13,7 @@
     var errorBox = byId('draft-error');
     var reviewPanel = byId('review-panel');
     var aiNote = byId('ai-note');
+    var draftsLeft = byId('drafts-left');
     var max = parseInt(textarea.getAttribute('data-max'), 10) || 6000;
     var busy = false;
     var samples = [];
@@ -115,6 +116,10 @@
             }
 
             var result = await response.json();
+
+            if (typeof result.draftsLeftToday === 'number') {
+                draftsLeft.textContent = result.draftsLeftToday;
+            }
 
             if (result.ok) {
                 fillForm(result.record, result.note);

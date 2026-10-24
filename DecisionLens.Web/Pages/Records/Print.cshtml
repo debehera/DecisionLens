@@ -1,0 +1,62 @@
+@page "{id:int}"
+@model DecisionLens.Web.Pages.Records.PrintModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.Record.Title</title>
+    <link rel="stylesheet" href="~/css/print.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="no-print toolbar">
+        <button type="button" onclick="window.print()">Print / Save as PDF</button>
+        <a href="javascript:window.close()">Close</a>
+    </div>
+
+    <article class="adr">
+        <p class="kicker">Architecture Decision Record</p>
+        <h1>@Model.Record.Title</h1>
+
+        <table class="meta">
+            <tr><th>Status</th><td>@Model.Record.Status</td></tr>
+            <tr><th>Date</th><td>@Model.Record.DecisionDate.ToString("yyyy-MM-dd")</td></tr>
+            <tr><th>Owner</th><td>@(string.IsNullOrWhiteSpace(Model.Record.Owner) ? "Not set" : Model.Record.Owner)</td></tr>
+            <tr><th>ADM phase</th><td>@Model.Record.AdmPhase</td></tr>
+            <tr><th>Domain</th><td>@Model.Record.Domain</td></tr>
+        </table>
+
+        <section class="field">
+            <h2>Context</h2>
+            <p>@Model.Record.Context</p>
+        </section>
+
+        <section class="field">
+            <h2>Decision</h2>
+            <p>@Model.Record.Decision</p>
+        </section>
+
+        <section class="field">
+            <h2>Options considered</h2>
+            <p>@Model.Record.OptionsConsidered</p>
+        </section>
+
+        <section class="field">
+            <h2>Rationale</h2>
+            <p>@Model.Record.Rationale</p>
+        </section>
+
+        <section class="field">
+            <h2>Consequences and risks</h2>
+            <p>@Model.Record.Consequences</p>
+        </section>
+
+        <footer class="doc-footer">
+            Record #@Model.Record.Id &middot; @Model.Record.DecisionDate.ToString("yyyy-MM-dd") &middot; Created with DecisionLens
+        </footer>
+    </article>
+</body>
+</html>

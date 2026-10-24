@@ -16,12 +16,14 @@ public class CaptureModel : PageModel
 
     private readonly IDecisionDrafter _drafter;
     private readonly AppDbContext _db;
+    private readonly UsageLimiter _limiter;
     private readonly LimitsOptions _limits;
 
-    public CaptureModel(IDecisionDrafter drafter, AppDbContext db, IOptions<LimitsOptions> limits)
+    public CaptureModel(IDecisionDrafter drafter, AppDbContext db, UsageLimiter limiter, IOptions<LimitsOptions> limits)
     {
         _drafter = drafter;
         _db = db;
+        _limiter = limiter;
         _limits = limits.Value;
     }
 
@@ -32,27 +34,42 @@ public class CaptureModel : PageModel
 
     public int MaxInputChars => _limits.MaxInputChars;
 
+    public int DraftsLeftToday { get; private set; }
+
     // JSON for the sample dropdown, read by capture.js
     public string SamplesJson { get; private set; } = "[]";
 
-    public void OnGet()
+    public async Task OnGetAsync()
     {
         LoadSamples();
+        DraftsLeftToday = await _limiter.GetRemainingAsync();
     }
 
     // Called by capture.js with fetch: POST /Capture?handler=Draft
     public async Task<IActionResult> OnPostDraftAsync([FromBody] DraftRequest request, CancellationToken cancellationToken)
     {
-        var outcome = await _drafter.DraftAsync(request?.Text ?? "", cancellationToken);
+        var text = request?.Text ?? "";
 
-        return new JsonResult(new
+        // Bad input is rejected before it uses up a draft.
+        if (string.IsNullOrWhiteSpace(text))
         {
-            ok = outcome.Success,
-            errorCode = outcome.ErrorCode.ToString(),
-            message = outcome.Message,
-            record = outcome.Record,
-            note = outcome.Note
-        });
+            return DraftJson(DraftOutcome.Fail(DraftErrorCode.EmptyInput), null);
+        }
+
+        if (text.Length > _limits.MaxInputChars)
+        {
+            return DraftJson(DraftOutcome.Fail(DraftErrorCode.InputTooLong, _limits.MaxInputChars), null);
+        }
+
+        var visitor = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var permit = await _limiter.TryConsumeAsync(visitor, cancellationToken);
+        if (!permit.Allowed)
+        {
+            return DraftJson(DraftOutcome.Fail(permit.Code), permit.DraftsLeft);
+        }
+
+        var outcome = await _drafter.DraftAsync(text, cancellationToken);
+        return DraftJson(outcome, permit.DraftsLeft);
     }
 
     public async Task<IActionResult> OnPostSaveAsync()
@@ -60,6 +77,7 @@ public class CaptureModel : PageModel
         if (!ModelState.IsValid)
         {
             LoadSamples();
+            DraftsLeftToday = await _limiter.GetRemainingAsync();
             ShowReview = true;
             return Page();
         }
@@ -87,6 +105,19 @@ public class CaptureModel : PageModel
 
         TempData["Success"] = "Record saved.";
         return RedirectToPage("/Records/Details", new { id = record.Id });
+    }
+
+    private static JsonResult DraftJson(DraftOutcome outcome, int? draftsLeftToday)
+    {
+        return new JsonResult(new
+        {
+            ok = outcome.Success,
+            errorCode = outcome.ErrorCode.ToString(),
+            message = outcome.Message,
+            record = outcome.Record,
+            note = outcome.Note,
+            draftsLeftToday
+        });
     }
 
     private void LoadSamples()

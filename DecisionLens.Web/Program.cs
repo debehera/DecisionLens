@@ -1,6 +1,6 @@
 using DecisionLens.Web.Data;
-using Microsoft.EntityFrameworkCore;
 using DecisionLens.Web.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,11 @@ builder.Services.Configure<LimitsOptions>(builder.Configuration.GetSection("Limi
 builder.Services.AddHttpClient<IDecisionDrafter, GeminiDecisionDrafter>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(ConnectionStringHelper.Resolve(builder.Configuration)));
+builder.Services.AddSingleton<CooldownTracker>();
+builder.Services.AddScoped<UsageLimiter>();
+
 var app = builder.Build();
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();

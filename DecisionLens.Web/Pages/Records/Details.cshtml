@@ -19,11 +19,11 @@
         <dt>Owner</dt><dd>@(string.IsNullOrWhiteSpace(Model.Record.Owner) ? "Not set" : Model.Record.Owner)</dd>
     </dl>
 
-    <h2 class="h6 dl-label">Decision</h2>
-    <p class="dl-text">@Model.Record.Decision</p>
-
     <h2 class="h6 dl-label">Context</h2>
     <p class="dl-text">@Model.Record.Context</p>
+
+    <h2 class="h6 dl-label">Decision</h2>
+    <p class="dl-text">@Model.Record.Decision</p>
 
     <h2 class="h6 dl-label">Options considered</h2>
     <p class="dl-text">@Model.Record.OptionsConsidered</p>
@@ -35,7 +35,16 @@
     <p class="dl-text">@Model.Record.Consequences</p>
 </div>
 
-<div class="d-flex gap-3 mb-4">
+<div class="dl-actions">
+    <a asp-page="/Records/Edit" asp-route-id="@Model.Record.Id" class="btn dl-btn-primary">Edit</a>
+    <a asp-page="/Records/Print" asp-route-id="@Model.Record.Id" target="_blank" rel="noopener" class="btn dl-btn-outline">Print</a>
+    <a asp-page="/Records/Details" asp-page-handler="Markdown" asp-route-id="@Model.Record.Id" class="btn dl-btn-outline">Markdown</a>
+
+    <form method="post" asp-page-handler="Delete" asp-route-id="@Model.Record.Id"
+          data-confirm="Delete this record? This cannot be undone.">
+        <button type="submit" class="btn dl-btn-danger">Delete</button>
+    </form>
+
     <a asp-page="/Records/Index" class="btn dl-btn-outline">Back to records</a>
-    <a asp-page="/Capture" class="btn dl-btn-primary">New record</a>
+    <a asp-page="/Capture" class="btn dl-btn-outline">New record</a>
 </div>

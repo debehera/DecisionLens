@@ -1,0 +1,60 @@
+/* Day 6 styles: records list and details actions */
+
+.dl-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+.dl-filter-bar > div:not(.dl-filter-actions) {
+    min-width: 14rem;
+}
+.dl-filter-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dl-count {
+    color: #5c6b7a;
+    margin-bottom: 0.75rem;
+}
+
+.dl-table th {
+    color: #10243e;
+    white-space: nowrap;
+}
+.dl-title-link {
+    color: #10243e;
+    font-weight: 600;
+    text-decoration: none;
+}
+.dl-title-link:hover {
+    color: #176b66;
+    text-decoration: underline;
+}
+
+.dl-empty {
+    background: #fffdf8;
+    border: 1px dashed #cfc8b6;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.dl-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+.dl-btn-danger {
+    color: #b3261e;
+    border: 1px solid #b3261e;
+    background: transparent;
+}
+.dl-btn-danger:hover {
+    color: #fff;
+    background: #b3261e;
+}

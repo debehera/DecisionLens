@@ -1,0 +1,22 @@
+@page "{id:int}"
+@model DecisionLens.Web.Pages.Records.EditModel
+@{
+    ViewData["Title"] = "Edit record";
+}
+
+<h1 class="h3 mb-3">Edit record</h1>
+
+<form method="post">
+    <section class="dl-card mb-4">
+        <partial name="_RecordForm" for="Input" />
+
+        <div class="d-flex gap-3 mt-3">
+            <button type="submit" class="btn dl-btn-primary">Save changes</button>
+            <a asp-page="/Records/Details" asp-route-id="@Model.Id" class="btn dl-btn-outline">Cancel</a>
+        </div>
+    </section>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

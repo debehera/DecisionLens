@@ -1,45 +1,100 @@
 @page
 @model DecisionLens.Web.Pages.Records.IndexModel
+@using DecisionLens.Web.Models
 @{
     ViewData["Title"] = "Records";
 }
 
-<h1 class="h3 mb-3">Records</h1>
-<p class="text-muted">Temporary list from Day 4. It proves the database works. The real browse page comes on Day 6.</p>
+<h1 class="h3 mb-3">Decision records</h1>
 
-@if (Model.Records.Count == 0)
+@if (TempData["Success"] is string success)
 {
-    <p>No records yet.</p>
+    <div class="alert alert-success" role="alert">@success</div>
+}
+
+<form method="get" class="dl-filter-bar">
+    <div>
+        <label for="phase" class="form-label">ADM phase</label>
+        <select id="phase" name="phase" class="form-select">
+            <option value="">All phases</option>
+            @foreach (var p in TogafCatalog.AdmPhases)
+            {
+                <option value="@p" selected="@(p == Model.Phase)">@p</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="domain" class="form-label">Domain</label>
+        <select id="domain" name="domain" class="form-select">
+            <option value="">All domains</option>
+            @foreach (var d in TogafCatalog.Domains)
+            {
+                <option value="@d" selected="@(d == Model.Domain)">@d</option>
+            }
+        </select>
+    </div>
+    <div class="dl-filter-actions">
+        <button type="submit" class="btn dl-btn-primary">Apply</button>
+        <a asp-page="/Records/Index" class="btn dl-btn-outline">Clear</a>
+    </div>
+</form>
+
+@if (Model.TotalCount == 0)
+{
+    <div class="dl-empty">
+        <p class="mb-2">No records yet.</p>
+        <a asp-page="/Capture" class="btn dl-btn-primary">Create the first record</a>
+    </div>
 }
 else
 {
-    <div class="table-responsive">
-        <table class="table table-striped align-middle">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>ADM phase</th>
-                    <th>Domain</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Owner</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var r in Model.Records)
-                {
+    <p class="dl-count">
+        @Model.Records.Count @(Model.Records.Count == 1 ? "record" : "records")
+        @if (Model.HasFilters)
+        {
+            <span>
+                matching
+                @if (Model.Phase != null) { <strong>@Model.Phase</strong> }
+                @if (Model.Phase != null && Model.Domain != null) { <text> and </text> }
+                @if (Model.Domain != null) { <strong>@Model.Domain</strong> }
+                &middot; <a asp-page="/Records/Index" class="dl-link">Clear filters</a>
+            </span>
+        }
+    </p>
+
+    @if (Model.Records.Count == 0)
+    {
+        <div class="dl-empty">
+            <p class="mb-2">No records match these filters.</p>
+            <a asp-page="/Records/Index" class="btn dl-btn-outline">Clear filters</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle dl-table">
+                <thead>
                     <tr>
-                        <td>@r.Id</td>
-                        <td>@r.Title</td>
-                        <td>@r.AdmPhase</td>
-                        <td>@r.Domain</td>
-                        <td>@r.Status</td>
-                        <td>@r.DecisionDate.ToString("yyyy-MM-dd")</td>
-                        <td>@r.Owner</td>
+                        <th>Title</th>
+                        <th>Tags</th>
+                        <th>Status</th>
+                        <th>Date</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model.Records)
+                    {
+                        <tr>
+                            <td><a asp-page="/Records/Details" asp-route-id="@r.Id" class="dl-title-link">@r.Title</a></td>
+                            <td><partial name="_AdmBadge" model="r" /></td>
+                            <td>@r.Status</td>
+                            <td class="text-nowrap">@r.DecisionDate.ToString("yyyy-MM-dd")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 }
+
+<a asp-page="/Capture" class="btn dl-btn-primary mb-4">New record</a>
