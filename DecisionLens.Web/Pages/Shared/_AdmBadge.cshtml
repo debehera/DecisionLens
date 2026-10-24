@@ -1,0 +1,4 @@
+@model DecisionLens.Web.Models.DecisionRecord
+
+<span class="dl-badge dl-badge-phase">@Model.AdmPhase</span>
+<span class="dl-badge dl-badge-@Model.Domain.ToLowerInvariant()">@Model.Domain</span>

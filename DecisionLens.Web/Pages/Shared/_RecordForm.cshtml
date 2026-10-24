@@ -1,0 +1,77 @@
+@model DecisionLens.Web.Models.RecordInput
+@using DecisionLens.Web.Models
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="Title" class="form-label"></label>
+    <input asp-for="Title" class="form-control" maxlength="150" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Decision" class="form-label"></label>
+    <textarea asp-for="Decision" class="form-control" rows="3"></textarea>
+    <span asp-validation-for="Decision" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Context" class="form-label"></label>
+    <textarea asp-for="Context" class="form-control" rows="4"></textarea>
+    <span asp-validation-for="Context" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="OptionsConsidered" class="form-label"></label>
+    <div class="form-text mt-0 mb-1">One option per line.</div>
+    <textarea asp-for="OptionsConsidered" class="form-control" rows="4"></textarea>
+    <span asp-validation-for="OptionsConsidered" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Rationale" class="form-label"></label>
+    <textarea asp-for="Rationale" class="form-control" rows="4"></textarea>
+    <span asp-validation-for="Rationale" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Consequences" class="form-label"></label>
+    <textarea asp-for="Consequences" class="form-control" rows="4"></textarea>
+    <span asp-validation-for="Consequences" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mb-3">
+        <label asp-for="AdmPhase" class="form-label"></label>
+        <select asp-for="AdmPhase" asp-items="@(new SelectList(TogafCatalog.AdmPhases))" class="form-select">
+            <option value="">Choose an ADM phase...</option>
+        </select>
+        <span asp-validation-for="AdmPhase" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="Domain" class="form-label"></label>
+        <select asp-for="Domain" asp-items="@(new SelectList(TogafCatalog.Domains))" class="form-select">
+            <option value="">Choose a domain...</option>
+        </select>
+        <span asp-validation-for="Domain" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <label asp-for="Owner" class="form-label"></label>
+        <input asp-for="Owner" class="form-control" maxlength="100" />
+        <span asp-validation-for="Owner" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" asp-items="@(new SelectList(TogafCatalog.Statuses))" class="form-select"></select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="DecisionDate" class="form-label"></label>
+        <input asp-for="DecisionDate" type="date" value="@Model.DecisionDate.ToString("yyyy-MM-dd")" class="form-control" />
+        <span asp-validation-for="DecisionDate" class="text-danger"></span>
+    </div>
+</div>

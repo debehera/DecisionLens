@@ -1,0 +1,41 @@
+@page "{id:int}"
+@model DecisionLens.Web.Pages.Records.DetailsModel
+@{
+    ViewData["Title"] = Model.Record.Title;
+}
+
+@if (TempData["Success"] is string success)
+{
+    <div class="alert alert-success" role="alert">@success</div>
+}
+
+<div class="dl-card mb-4">
+    <div class="mb-2"><partial name="_AdmBadge" model="Model.Record" /></div>
+    <h1 class="h3 mb-3">@Model.Record.Title</h1>
+
+    <dl class="dl-meta">
+        <dt>Status</dt><dd>@Model.Record.Status</dd>
+        <dt>Date</dt><dd>@Model.Record.DecisionDate.ToString("yyyy-MM-dd")</dd>
+        <dt>Owner</dt><dd>@(string.IsNullOrWhiteSpace(Model.Record.Owner) ? "Not set" : Model.Record.Owner)</dd>
+    </dl>
+
+    <h2 class="h6 dl-label">Decision</h2>
+    <p class="dl-text">@Model.Record.Decision</p>
+
+    <h2 class="h6 dl-label">Context</h2>
+    <p class="dl-text">@Model.Record.Context</p>
+
+    <h2 class="h6 dl-label">Options considered</h2>
+    <p class="dl-text">@Model.Record.OptionsConsidered</p>
+
+    <h2 class="h6 dl-label">Rationale</h2>
+    <p class="dl-text">@Model.Record.Rationale</p>
+
+    <h2 class="h6 dl-label">Consequences and risks</h2>
+    <p class="dl-text">@Model.Record.Consequences</p>
+</div>
+
+<div class="d-flex gap-3 mb-4">
+    <a asp-page="/Records/Index" class="btn dl-btn-outline">Back to records</a>
+    <a asp-page="/Capture" class="btn dl-btn-primary">New record</a>
+</div>

@@ -1,51 +1,58 @@
 @page
-@model CaptureModel
+@model DecisionLens.Web.Pages.CaptureModel
 @{
     ViewData["Title"] = "New record";
 }
 
-<h1>New record <small class="text-muted fs-5">(temporary Day 3 test page)</small></h1>
-<p class="text-muted">Paste a fictional discussion and click Draft. The real capture screen comes on Day 5.</p>
+<h1 class="h3 mb-1">New decision record</h1>
+<p class="text-muted">Paste a messy discussion and let the AI draft a record, or start blank. You review and confirm everything before it is saved.</p>
 
-<p>
-    Load a sample:
-    <a asp-page="/Capture" asp-route-sample="1">1 Database chat</a> |
-    <a asp-page="/Capture" asp-route-sample="2">2 API gateway notes</a> |
-    <a asp-page="/Capture" asp-route-sample="3">3 Legacy billing email</a> |
-    <a asp-page="/Capture" asp-route-sample="4">4 Thin chat (test only)</a>
-</p>
+<section class="dl-card mb-4" id="step1">
+    <h2 class="h5 mb-3"><span class="dl-step">1</span> Paste the discussion</h2>
 
-<form method="post">
-    <textarea asp-for="Discussion" class="form-control" rows="12" placeholder="Paste a discussion here"></textarea>
-    <div class="form-text">Limit: @Model.MaxChars.ToString("N0") characters. Currently: @((Model.Discussion ?? "").Length.ToString("N0")).</div>
-    <button class="btn dl-btn-primary mt-3" type="submit">Draft record</button>
+    <textarea id="discussion" class="form-control" rows="10"
+              data-max="@Model.MaxInputChars"
+              placeholder="Paste a chat thread, meeting notes or an email thread here. Use fictional or sanitized text only."></textarea>
+
+    <div class="d-flex flex-wrap align-items-center gap-3 mt-2">
+        <span id="counter" class="dl-counter">0 / @Model.MaxInputChars.ToString("N0")</span>
+        <select id="sample-select" class="form-select form-select-sm w-auto">
+            <option value="">Load a sample...</option>
+        </select>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
+        <button type="button" id="draft-btn" class="btn dl-btn-primary">Draft with AI</button>
+        <a href="#" id="start-blank" class="dl-link">Start blank</a>
+        <span id="spinner" class="dl-spinner" hidden></span>
+    </div>
+
+    <p id="slow-note" class="text-muted mt-2 mb-0" hidden>The free server may be waking up, thanks for waiting.</p>
+    <div id="draft-error" class="alert alert-warning mt-3 mb-0" role="alert" hidden></div>
+</section>
+
+<form method="post" asp-page-handler="Save" id="record-form">
+    <section class="dl-card mb-4" id="review-panel" hidden="@(!Model.ShowReview)">
+        <h2 class="h5 mb-3"><span class="dl-step">2</span> Review and confirm</h2>
+
+        <div id="ai-note" class="alert alert-info" hidden>
+            <strong>AI note:</strong> confidence <strong id="ai-confidence"></strong>.
+            <span id="ai-reason"></span>
+            Please check the ADM phase and domain below. You make the final call.
+        </div>
+
+        <partial name="_RecordForm" for="Input" />
+
+        <div class="d-flex gap-3 mt-3">
+            <button type="submit" class="btn dl-btn-primary">Save record</button>
+            <a asp-page="/Records/Index" class="btn dl-btn-outline">Cancel</a>
+        </div>
+    </section>
 </form>
 
-@if (Model.Outcome is not null)
-{
-    if (!Model.Outcome.Success)
-    {
-        <div class="alert alert-warning mt-4" role="alert">
-            @Model.Outcome.Message
-            <small class="text-muted">(code: @Model.Outcome.ErrorCode)</small>
-        </div>
-    }
-    else
-    {
-        var r = Model.Outcome.Record!;
-        var n = Model.Outcome.Note!;
-        <div class="dl-card mt-4">
-            <h2>@r.Title</h2>
-            <dl class="mb-0">
-                <dt>Decision</dt><dd>@r.Decision</dd>
-                <dt>Context</dt><dd>@r.Context</dd>
-                <dt>Options considered</dt><dd style="white-space:pre-line">@r.OptionsConsidered</dd>
-                <dt>Rationale</dt><dd>@r.Rationale</dd>
-                <dt>Consequences and risks</dt><dd>@r.Consequences</dd>
-                <dt>ADM phase</dt><dd>@r.AdmPhase</dd>
-                <dt>Architecture domain</dt><dd>@r.Domain</dd>
-                <dt>AI note (not saved)</dt><dd>Confidence: @n.Confidence. @n.Reason</dd>
-            </dl>
-        </div>
-    }
+<script type="application/json" id="samples-data">@Html.Raw(Model.SamplesJson)</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/capture.js" asp-append-version="true"></script>
 }
