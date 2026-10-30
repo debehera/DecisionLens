@@ -56,6 +56,9 @@ else
     app.UseHsts();
 }
 
+// Friendly pages for 404, 400 and other empty error responses.
+app.UseStatusCodePagesWithReExecute("/Status/{0}");
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
