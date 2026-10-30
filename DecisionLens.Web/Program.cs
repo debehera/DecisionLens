@@ -1,5 +1,6 @@
 using DecisionLens.Web.Data;
 using DecisionLens.Web.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(ConnectionStringHelper.Resolve(builder.Configuration)));
 builder.Services.AddSingleton<CooldownTracker>();
 builder.Services.AddScoped<UsageLimiter>();
+
+// Keep the form-protection keys in the database so open pages survive a restart.
+builder.Services.AddDataProtection()
+    .SetApplicationName("DecisionLens")
+    .PersistKeysToDbContext<AppDbContext>();
 
 // Behind Render's proxy: trust the forwarded client IP and HTTPS scheme.
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
