@@ -10,12 +10,14 @@
 <section class="dl-card mb-4" id="step1">
     <h2 class="h5 mb-3"><span class="dl-step">1</span> Paste the discussion</h2>
 
+    <label for="discussion" class="form-label visually-hidden">Discussion text</label>
     <textarea id="discussion" class="form-control" rows="10"
               data-max="@Model.MaxInputChars"
               placeholder="Paste a chat thread, meeting notes or an email thread here. Use fictional or sanitized text only."></textarea>
 
     <div class="d-flex flex-wrap align-items-center gap-3 mt-2">
         <span id="counter" class="dl-counter">0 / @Model.MaxInputChars.ToString("N0")</span>
+        <label for="sample-select" class="visually-hidden">Load a sample discussion</label>
         <select id="sample-select" class="form-select form-select-sm w-auto">
             <option value="">Load a sample...</option>
         </select>
@@ -24,11 +26,11 @@
     <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
         <button type="button" id="draft-btn" class="btn dl-btn-primary">Draft with AI</button>
         <a href="#" id="start-blank" class="dl-link">Start blank</a>
-        <span id="spinner" class="dl-spinner" hidden></span>
+        <span id="spinner" class="dl-spinner" role="status" aria-label="Drafting, please wait" hidden></span>
         <span class="dl-counter ms-auto">Drafts left today: <strong id="drafts-left">@Model.DraftsLeftToday</strong></span>
     </div>
 
-    <p id="slow-note" class="text-muted mt-2 mb-0" hidden>The free server may be waking up, thanks for waiting.</p>
+    <p id="slow-note" class="text-muted mt-2 mb-0" aria-live="polite" hidden>The free server may be waking up, thanks for waiting.</p>
     <div id="draft-error" class="alert alert-warning mt-3 mb-0" role="alert" hidden></div>
 </section>
 
@@ -36,7 +38,7 @@
     <section class="dl-card mb-4" id="review-panel" hidden="@(!Model.ShowReview)">
         <h2 class="h5 mb-3"><span class="dl-step">2</span> Review and confirm</h2>
 
-        <div id="ai-note" class="alert alert-info" hidden>
+        <div id="ai-note" class="alert alert-info" role="status" hidden>
             <strong>AI note:</strong> confidence <strong id="ai-confidence"></strong>.
             <span id="ai-reason"></span>
             Please check the ADM phase and domain below. You make the final call.

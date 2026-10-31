@@ -1,38 +1,41 @@
 ﻿@page
-@model IndexModel
 @{
     ViewData["Title"] = "Home";
 }
 
 <section class="dl-hero">
-    <h1>Turn messy discussions into TOGAF-tagged decision records</h1>
-    <p class="dl-lead">Paste a chat thread, meeting notes or an email. DecisionLens drafts the record, and you confirm the ADM phase and architecture domain before saving.</p>
-    <div class="dl-actions">
-        <a class="btn dl-btn-primary" asp-page="/Capture">New record</a>
-        <a class="btn dl-btn-outline" asp-page="/Records/Index">Browse records</a>
+    <h1>From a messy discussion to a TOGAF-tagged decision record</h1>
+    <p class="lead">
+        Paste a chat thread, meeting notes or an email. The AI drafts a nine-field architecture decision record,
+        and you review it, confirm the ADM phase and domain, and save it.
+    </p>
+    <div class="d-flex flex-wrap gap-3">
+        <a asp-page="/Capture" asp-route-sample="1" class="btn dl-btn-primary btn-lg">Try it with a sample</a>
+        <a asp-page="/Records/Index" class="btn dl-btn-outline btn-lg">Browse records</a>
     </div>
 </section>
 
-<section class="row g-4">
+<section class="row g-3 my-4" aria-label="How it works">
     <div class="col-md-4">
-        <div class="dl-card">
-            <span class="dl-step">1</span>
-            <h2>Paste</h2>
-            <p>Drop in a discussion from any source. Use fictional or sanitized text only.</p>
+        <div class="dl-card h-100">
+            <h2 class="h5"><span class="dl-step">1</span> Paste</h2>
+            <p class="mb-0">Drop in the discussion as plain text. Nothing is stored except the record you save.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="dl-card">
-            <span class="dl-step">2</span>
-            <h2>Review</h2>
-            <p>The AI drafts the record and suggests the TOGAF tags. You edit and confirm.</p>
+        <div class="dl-card h-100">
+            <h2 class="h5"><span class="dl-step">2</span> Review</h2>
+            <p class="mb-0">The AI proposes the fields and the TOGAF tags. You correct anything and make the final call.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="dl-card">
-            <span class="dl-step">3</span>
-            <h2>Save and share</h2>
-            <p>Browse and filter your records, then print or download them as Markdown.</p>
+        <div class="dl-card h-100">
+            <h2 class="h5"><span class="dl-step">3</span> Save and share</h2>
+            <p class="mb-0">Browse and filter your records, then print a PDF or download Markdown.</p>
         </div>
     </div>
 </section>
+
+<p class="text-muted">
+    This is a demo. Use fictional or sanitized text only, because pasted text is sent to a free AI service.
+</p>

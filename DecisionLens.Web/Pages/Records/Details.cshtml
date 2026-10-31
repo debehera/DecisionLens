@@ -1,12 +1,19 @@
 @page "{id:int}"
 @model DecisionLens.Web.Pages.Records.DetailsModel
+@using DecisionLens.Web.Models
 @{
     ViewData["Title"] = Model.Record.Title;
+}
+@functions {
+    private static bool IsBlank(string? text) => string.IsNullOrWhiteSpace(text);
+
+    // Blank text and the AI's "Not stated in the discussion" are both shown in a muted style.
+    private static bool IsMuted(string? text) => IsBlank(text) || text!.Trim() == TogafCatalog.NotStated;
 }
 
 @if (TempData["Success"] is string success)
 {
-    <div class="alert alert-success" role="alert">@success</div>
+    <div class="alert alert-success" role="status">@success</div>
 }
 
 <div class="dl-card mb-4">
@@ -16,23 +23,23 @@
     <dl class="dl-meta">
         <dt>Status</dt><dd>@Model.Record.Status</dd>
         <dt>Date</dt><dd>@Model.Record.DecisionDate.ToString("yyyy-MM-dd")</dd>
-        <dt>Owner</dt><dd>@(string.IsNullOrWhiteSpace(Model.Record.Owner) ? "Not set" : Model.Record.Owner)</dd>
+        <dt>Owner</dt><dd>@(IsBlank(Model.Record.Owner) ? "Not set" : Model.Record.Owner)</dd>
     </dl>
 
     <h2 class="h6 dl-label">Context</h2>
-    <p class="dl-text">@Model.Record.Context</p>
+    <p class="dl-text @(IsMuted(Model.Record.Context) ? "dl-muted" : "")">@(IsBlank(Model.Record.Context) ? "Not provided" : Model.Record.Context)</p>
 
     <h2 class="h6 dl-label">Decision</h2>
-    <p class="dl-text">@Model.Record.Decision</p>
+    <p class="dl-text @(IsMuted(Model.Record.Decision) ? "dl-muted" : "")">@(IsBlank(Model.Record.Decision) ? "Not provided" : Model.Record.Decision)</p>
 
     <h2 class="h6 dl-label">Options considered</h2>
-    <p class="dl-text">@Model.Record.OptionsConsidered</p>
+    <p class="dl-text @(IsMuted(Model.Record.OptionsConsidered) ? "dl-muted" : "")">@(IsBlank(Model.Record.OptionsConsidered) ? "Not provided" : Model.Record.OptionsConsidered)</p>
 
     <h2 class="h6 dl-label">Rationale</h2>
-    <p class="dl-text">@Model.Record.Rationale</p>
+    <p class="dl-text @(IsMuted(Model.Record.Rationale) ? "dl-muted" : "")">@(IsBlank(Model.Record.Rationale) ? "Not provided" : Model.Record.Rationale)</p>
 
     <h2 class="h6 dl-label">Consequences and risks</h2>
-    <p class="dl-text">@Model.Record.Consequences</p>
+    <p class="dl-text @(IsMuted(Model.Record.Consequences) ? "dl-muted" : "")">@(IsBlank(Model.Record.Consequences) ? "Not provided" : Model.Record.Consequences)</p>
 </div>
 
 <div class="dl-actions">

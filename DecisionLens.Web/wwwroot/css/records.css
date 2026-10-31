@@ -1,4 +1,21 @@
-/* Day 6 styles: records list and details actions */
+/* Day 6 and 8 styles: records list, details actions, polish */
+
+.dl-footer-note {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.dl-muted {
+    color: #5c6b7a;
+    font-style: italic;
+}
+
+:focus-visible {
+    outline: 3px solid #e3a02b;
+    outline-offset: 2px;
+}
 
 .dl-filter-bar {
     display: flex;
@@ -57,4 +74,21 @@
 .dl-btn-danger:hover {
     color: #fff;
     background: #b3261e;
+}
+
+/* Phones */
+@media (max-width: 576px) {
+    .dl-filter-bar > div,
+    .dl-filter-actions {
+        width: 100%;
+    }
+    .dl-filter-actions .btn {
+        flex: 1;
+    }
+    .dl-meta {
+        grid-template-columns: 1fr;
+    }
+    .dl-meta dd {
+        margin-bottom: 0.5rem;
+    }
 }
