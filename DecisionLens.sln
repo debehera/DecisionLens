@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecisionLens.Web", "DecisionLens.Web\DecisionLens.Web.csproj", "{10AC9022-D2F8-4BCC-A0CA-0A0985E9066E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecisionLens.Tests", "DecisionLens.Tests\DecisionLens.Tests.csproj", "{532AA1D1-5BA8-4648-9044-3B6D29BDA9E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{10AC9022-D2F8-4BCC-A0CA-0A0985E9066E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10AC9022-D2F8-4BCC-A0CA-0A0985E9066E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10AC9022-D2F8-4BCC-A0CA-0A0985E9066E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532AA1D1-5BA8-4648-9044-3B6D29BDA9E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532AA1D1-5BA8-4648-9044-3B6D29BDA9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532AA1D1-5BA8-4648-9044-3B6D29BDA9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532AA1D1-5BA8-4648-9044-3B6D29BDA9E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
